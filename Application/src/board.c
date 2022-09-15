@@ -32,8 +32,6 @@ void hardware_init(void) {
     gpio_init();
     adc_init();
     dma_init();
-
-
 }
 
 //========================= MPU SYSTEM CLOCK INIT ==============================
@@ -88,7 +86,7 @@ void adc_init() {
     // ADC Init
     ADC_InitStructure.ADC_Resolution           = ADC_Resolution_12b;
     ADC_InitStructure.ADC_ScanConvMode         = DISABLE;
-    ADC_InitStructure.ADC_ContinuousConvMode   = DISABLE;
+    ADC_InitStructure.ADC_ContinuousConvMode   = ENABLE;
     ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
     ADC_InitStructure.ADC_ExternalTrigConv     = ADC_ExternalTrigConvEdge_None;
     ADC_InitStructure.ADC_DataAlign            = ADC_DataAlign_Right;
@@ -96,7 +94,8 @@ void adc_init() {
     ADC_Init(ADC1, &ADC_InitStructure);
 
     ADC_Cmd(ADC1, ENABLE);
-
+    ADC_DMACmd(ADC1, ENABLE);
+    ADC_RegularChannelConfig(ADC1, 0, 1, ADC_SampleTime_15Cycles);
 }
 
 void dma_init() {
@@ -105,14 +104,14 @@ void dma_init() {
     DMA_DeInit(DMA2_Stream0);
 
     DMA_InitStructure.DMA_Channel            = DMA_Channel_0;
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)ADC1_BASE + 0x4Cu; // + DR offset
-    DMA_InitStructure.DMA_Memory0BaseAddr    = SRAM1_BASE;
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &ADC1->DR; // + DR offset
+    DMA_InitStructure.DMA_Memory0BaseAddr    = SRAM1_BASE + 0x4000u;
     DMA_InitStructure.DMA_DIR                = DMA_DIR_PeripheralToMemory;
-    DMA_InitStructure.DMA_BufferSize         = 2048;
+    DMA_InitStructure.DMA_BufferSize         = 1024;
     DMA_InitStructure.DMA_PeripheralInc      = DMA_PeripheralInc_Disable;
     DMA_InitStructure.DMA_MemoryInc          = DMA_MemoryInc_Enable;
-    DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
-    DMA_InitStructure.DMA_MemoryDataSize     = DMA_MemoryDataSize_Word;
+    DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
+    DMA_InitStructure.DMA_MemoryDataSize     = DMA_MemoryDataSize_HalfWord;
     DMA_InitStructure.DMA_Mode               = DMA_Mode_Normal;
     DMA_InitStructure.DMA_Priority           = DMA_Priority_High;
     DMA_InitStructure.DMA_FIFOMode           = DMA_FIFOMode_Disable;
@@ -121,6 +120,9 @@ void dma_init() {
     DMA_InitStructure.DMA_PeripheralBurst    = DMA_PeripheralBurst_Single;  // If FIFO enabled
 
     DMA_Init(DMA2_Stream0, &DMA_InitStructure);
+}
 
+void start(void) {
     DMA_Cmd(DMA2_Stream0, ENABLE);
+    ADC1->CR2 |= 0x40000000;
 }
