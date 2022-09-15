@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Application/**",
+                "${workspaceFolder}/Application/inc/**",
+                "${workspaceFolder}/Libraries/CMSIS/Include/**",
+                "${workspaceFolder}/Libraries/STM32F4xx_StdPeriph_Driver/inc/**"
+            ],
+            "defines": [
+                "STM32F40_41xxx",
+                "HSE_VALUE=8000000",
+                "USE_STDPERIPH_DRIVER"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-clang-x64",
+            "configurationProvider": "iarsystems.iar-build"
+        }
+    ],
+    "version": 4
+}
