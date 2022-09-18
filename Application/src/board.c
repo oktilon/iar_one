@@ -29,9 +29,9 @@ void hardware_init(void) {
     SystemInit();
     system_clock_init();
     systick_init();
-    // tim_init();
+    tim_init();
     gpio_init();
-    adc_init();
+    // adc_init();
     dma_init();
 }
 
@@ -50,7 +50,7 @@ void system_clock_init(void) {
     RCC->DCKCFGR |=  RCC_DCKCFGR_TIMPRE;                         // clock timer
 
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
@@ -74,13 +74,14 @@ void gpio_init(void) {
 
 void tim_init() {
     TIM_ICInitTypeDef TIM_InitStructure;
+
     TIM_DeInit(TIM2);
     TIM_InternalClockConfig(TIM2);
     TIM_InitStructure.TIM_Channel = TIM_Channel_1;
     TIM_InitStructure.TIM_ICFilter = 0u;
     TIM_InitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
-    TIM_InitStructure.TIM_ICPrescaler = 0;
-    TIM_InitStructure.TIM_ICSelection = 0;
+    TIM_InitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
+    TIM_InitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
     TIM_ICInit(TIM2, &TIM_InitStructure);
 }
 
@@ -114,13 +115,13 @@ void adc_init() {
 void dma_init() {
     DMA_InitTypeDef   DMA_InitStructure;
 
-    DMA_DeInit(DMA2_Stream0);
+    DMA_DeInit(DMA1_Stream5);
 
     // Mem to Mem
     // Periferal to memory another channel
 
-    DMA_InitStructure.DMA_Channel            = DMA_Channel_0;
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &ADC1->DR; // + DR offset
+    DMA_InitStructure.DMA_Channel            = DMA_Channel_3;
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(GPIOA->IDR);
     DMA_InitStructure.DMA_Memory0BaseAddr    = SRAM1_BASE + 0x4000u;
     DMA_InitStructure.DMA_DIR                = DMA_DIR_PeripheralToMemory;
     DMA_InitStructure.DMA_BufferSize         = 1024;
@@ -135,10 +136,10 @@ void dma_init() {
     DMA_InitStructure.DMA_MemoryBurst        = DMA_MemoryBurst_INC4;        // If FIFO enabled
     DMA_InitStructure.DMA_PeripheralBurst    = DMA_PeripheralBurst_Single;  // If FIFO enabled
 
-    DMA_Init(DMA2_Stream0, &DMA_InitStructure);
+    DMA_Init(DMA1_Stream5, &DMA_InitStructure);
 }
 
 void start(void) {
-    DMA_Cmd(DMA2_Stream0, ENABLE);
-    ADC1->CR2 |= 0x40000000;
+    DMA_Cmd(DMA1_Stream5, ENABLE);
+    // ADC1->CR2 |= 0x40000000;
 }
