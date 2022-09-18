@@ -15,6 +15,7 @@ void hardware_init(void);
 void gpio_init(void);
 void adc_init(void);
 void dma_init(void);
+void tim_init(void);
 void start(void);
 
 

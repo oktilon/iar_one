@@ -29,6 +29,7 @@ void hardware_init(void) {
     SystemInit();
     system_clock_init();
     systick_init();
+    // tim_init();
     gpio_init();
     adc_init();
     dma_init();
@@ -71,6 +72,18 @@ void gpio_init(void) {
     GPIO_Init(GPIOA, &GPIO_InitStructure); // PA0 (GPIOA + Pin0)
 }
 
+void tim_init() {
+    TIM_ICInitTypeDef TIM_InitStructure;
+    TIM_DeInit(TIM2);
+    TIM_InternalClockConfig(TIM2);
+    TIM_InitStructure.TIM_Channel = TIM_Channel_1;
+    TIM_InitStructure.TIM_ICFilter = 0u;
+    TIM_InitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
+    TIM_InitStructure.TIM_ICPrescaler = 0;
+    TIM_InitStructure.TIM_ICSelection = 0;
+    TIM_ICInit(TIM2, &TIM_InitStructure);
+}
+
 void adc_init() {
     // Setup ADC 1
     ADC_InitTypeDef       ADC_InitStructure;
@@ -102,6 +115,9 @@ void dma_init() {
     DMA_InitTypeDef   DMA_InitStructure;
 
     DMA_DeInit(DMA2_Stream0);
+
+    // Mem to Mem
+    // Periferal to memory another channel
 
     DMA_InitStructure.DMA_Channel            = DMA_Channel_0;
     DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &ADC1->DR; // + DR offset
