@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 9.0\common\bin\cspybat" -f "Z:\home\denis\projects\stm32\iar_one\settings\one.Debug.general.xcl" --backend -f "Z:\home\denis\projects\stm32\iar_one\settings\one.Debug.driver.xcl" 
+& "D:\Soft\ARM\common\bin\cspybat" -f "D:\projects\stm32\iar_one\settings\one.Debug.general.xcl" --backend -f "D:\projects\stm32\iar_one\settings\one.Debug.driver.xcl" 
 }
 else
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 9.0\common\bin\cspybat" -f "Z:\home\denis\projects\stm32\iar_one\settings\one.Debug.general.xcl" --debug_file=$debugfile --backend -f "Z:\home\denis\projects\stm32\iar_one\settings\one.Debug.driver.xcl" 
+& "D:\Soft\ARM\common\bin\cspybat" -f "D:\projects\stm32\iar_one\settings\one.Debug.general.xcl" --debug_file=$debugfile --backend -f "D:\projects\stm32\iar_one\settings\one.Debug.driver.xcl" 
 }

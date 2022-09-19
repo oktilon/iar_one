@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 9.0\common\bin\cspybat" -f "Z:\home\denis\projects\stm32\iar_one\settings\one.Debug.general.xcl" --backend -f "Z:\home\denis\projects\stm32\iar_one\settings\one.Debug.driver.xcl" 
+"D:\Soft\ARM\common\bin\cspybat" -f "D:\projects\stm32\iar_one\settings\one.Debug.general.xcl" --backend -f "D:\projects\stm32\iar_one\settings\one.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 9.0\common\bin\cspybat" -f "Z:\home\denis\projects\stm32\iar_one\settings\one.Debug.general.xcl" "--debug_file=%~1" --backend -f "Z:\home\denis\projects\stm32\iar_one\settings\one.Debug.driver.xcl" 
+"D:\Soft\ARM\common\bin\cspybat" -f "D:\projects\stm32\iar_one\settings\one.Debug.general.xcl" "--debug_file=%~1" --backend -f "D:\projects\stm32\iar_one\settings\one.Debug.driver.xcl" 
 
 @echo off 
 :end

@@ -29,7 +29,7 @@ void hardware_init(void) {
     SystemInit();
     system_clock_init();
     systick_init();
-    tim_init();
+    // tim_init();
     gpio_init();
     // adc_init();
     dma_init();
@@ -51,6 +51,7 @@ void system_clock_init(void) {
 
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
@@ -73,8 +74,16 @@ void gpio_init(void) {
 }
 
 void tim_init() {
+    // TIM_TimeBaseInitTypeDef TIM_InitBaseStructure;
     TIM_ICInitTypeDef TIM_InitStructure;
-
+    
+    /*TIM_TimeBaseStructInit(&TIM_InitBaseStructure);
+    TIM_InitBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_InitBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+    TIM_InitBaseStructure.TIM_Period = 4294967295;
+    TIM_InitBaseStructure.TIM_Prescaler = 0;
+    TIM_TimeBaseInit(TIM2, &TIM_InitBaseStructure);*/
+    
     TIM_DeInit(TIM2);
     TIM_InternalClockConfig(TIM2);
     TIM_InitStructure.TIM_Channel = TIM_Channel_1;
@@ -83,6 +92,11 @@ void tim_init() {
     TIM_InitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
     TIM_InitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
     TIM_ICInit(TIM2, &TIM_InitStructure);
+    TIM_Cmd(TIM2, ENABLE);
+    
+    TIM_DMACmd(TIM2, TIM_DMA_CC1, ENABLE);
+    //TIM_DMAConfig(TIM2, TIM_DMABase_???, 1);
+      
 }
 
 void adc_init() {
@@ -115,15 +129,16 @@ void adc_init() {
 void dma_init() {
     DMA_InitTypeDef   DMA_InitStructure;
 
-    DMA_DeInit(DMA1_Stream5);
+    DMA_DeInit(DMA1_Stream1); // DMA1_Stream5
 
     // Mem to Mem
     // Periferal to memory another channel
 
-    DMA_InitStructure.DMA_Channel            = DMA_Channel_3;
+    DMA_InitStructure.DMA_Channel            = DMA_Channel_0;
     DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(GPIOA->IDR);
-    DMA_InitStructure.DMA_Memory0BaseAddr    = SRAM1_BASE + 0x4000u;
-    DMA_InitStructure.DMA_DIR                = DMA_DIR_PeripheralToMemory;
+    DMA_InitStructure.DMA_Memory0BaseAddr    = 0x20004000u;
+    //DMA_InitStructure.DMA_DIR                = DMA_DIR_PeripheralToMemory;
+    DMA_InitStructure.DMA_DIR                = DMA_DIR_MemoryToMemory;
     DMA_InitStructure.DMA_BufferSize         = 1024;
     DMA_InitStructure.DMA_PeripheralInc      = DMA_PeripheralInc_Disable;
     DMA_InitStructure.DMA_MemoryInc          = DMA_MemoryInc_Enable;
@@ -136,7 +151,7 @@ void dma_init() {
     DMA_InitStructure.DMA_MemoryBurst        = DMA_MemoryBurst_INC4;        // If FIFO enabled
     DMA_InitStructure.DMA_PeripheralBurst    = DMA_PeripheralBurst_Single;  // If FIFO enabled
 
-    DMA_Init(DMA1_Stream5, &DMA_InitStructure);
+    DMA_Init(DMA1_Stream1, &DMA_InitStructure);
 }
 
 void start(void) {
