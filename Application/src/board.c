@@ -29,10 +29,10 @@ void hardware_init(void) {
     SystemInit();
     system_clock_init();
     systick_init();
-    // tim_init();
     gpio_init();
+    tim_init();
     // adc_init();
-    dma_init();
+    // dma_init();
 }
 
 //========================= MPU SYSTEM CLOCK INIT ==============================
@@ -51,6 +51,7 @@ void system_clock_init(void) {
 
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);
     RCC_AHB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
@@ -69,34 +70,47 @@ void gpio_init(void) {
 
     GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_0; // PA0 (GPIOA + Pin0) Discovery board User button
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure); // PA0 (GPIOA + Pin0)
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource0, GPIO_AF_TIM2);
 }
 
 void tim_init() {
-    // TIM_TimeBaseInitTypeDef TIM_InitBaseStructure;
+    TIM_TimeBaseInitTypeDef TIM_InitBaseStructure;
     TIM_ICInitTypeDef TIM_InitStructure;
-    
-    /*TIM_TimeBaseStructInit(&TIM_InitBaseStructure);
+    TIM_DeInit(TIM2);
+
+    // TIM_TimeBaseStructInit(&TIM_InitBaseStructure);
     TIM_InitBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
     TIM_InitBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-    TIM_InitBaseStructure.TIM_Period = 4294967295;
-    TIM_InitBaseStructure.TIM_Prescaler = 0;
-    TIM_TimeBaseInit(TIM2, &TIM_InitBaseStructure);*/
-    
-    TIM_DeInit(TIM2);
-    TIM_InternalClockConfig(TIM2);
+    TIM_InitBaseStructure.TIM_Period = 100-1;
+    TIM_InitBaseStructure.TIM_Prescaler = 168-1;
+    TIM_TimeBaseInit(TIM2, &TIM_InitBaseStructure);
+
+    // TIM_InternalClockConfig(TIM2);
     TIM_InitStructure.TIM_Channel = TIM_Channel_1;
-    TIM_InitStructure.TIM_ICFilter = 0u;
+    TIM_InitStructure.TIM_ICFilter = 8u;
     TIM_InitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
     TIM_InitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
     TIM_InitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
     TIM_ICInit(TIM2, &TIM_InitStructure);
+
+    NVIC_InitTypeDef NVIC_InitStructure;
+    NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_Init(&NVIC_InitStructure);
+
+    TIM_ITConfig(TIM2, TIM_IT_CC1, ENABLE);
+
+
     TIM_Cmd(TIM2, ENABLE);
-    
+
     TIM_DMACmd(TIM2, TIM_DMA_CC1, ENABLE);
     //TIM_DMAConfig(TIM2, TIM_DMABase_???, 1);
-      
+
 }
 
 void adc_init() {

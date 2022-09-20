@@ -9,3 +9,9 @@ void main(void)
     while(1);
 }
 //=========================================================================================
+
+
+void TIM2_IRQHandler() {
+    __NOP();
+    TIM_ClearITPendingBit(TIM2, TIM_IT_Update | TIM_IT_CC1);
+}
