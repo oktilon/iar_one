@@ -87,17 +87,20 @@ void tim_init() {
 
     // TIM_InternalClockConfig(TIM2);
     TIM_InitStructure.TIM_Channel = TIM_Channel_1;
-    TIM_InitStructure.TIM_ICFilter = 8u;
+    TIM_InitStructure.TIM_ICFilter = 0u;
     TIM_InitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
     TIM_InitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
     TIM_InitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
     TIM_ICInit(TIM2, &TIM_InitStructure);
 
+    TIM_ARRPreloadConfig(TIM2, ENABLE);
+    TIM_SelectInputTrigger(TIM2, TIM_IT_CC1);
+
     NVIC_InitTypeDef NVIC_InitStructure;
     NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
     NVIC_Init(&NVIC_InitStructure);
 
     TIM_ITConfig(TIM2, TIM_IT_CC1, ENABLE);
