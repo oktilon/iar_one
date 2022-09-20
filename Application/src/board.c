@@ -31,7 +31,6 @@ void hardware_init(void) {
     systick_init();
     gpio_init();
     tim_init();
-    // adc_init();
     // dma_init();
 }
 
@@ -55,7 +54,6 @@ void system_clock_init(void) {
     RCC_AHB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
 }
 
 //========================= MPU SYSTICK INIT ===================================
@@ -65,7 +63,6 @@ void systick_init(void) {
 }
 
 void gpio_init(void) {
-    // Choose GPIO pin
     GPIO_InitTypeDef GPIO_InitStructure;
 
     GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_0; // PA0 (GPIOA + Pin0) Discovery board User button
@@ -108,36 +105,9 @@ void tim_init() {
 
     TIM_Cmd(TIM2, ENABLE);
 
-    TIM_DMACmd(TIM2, TIM_DMA_CC1, ENABLE);
-    //TIM_DMAConfig(TIM2, TIM_DMABase_???, 1);
+    // TIM_DMACmd(TIM2, TIM_DMA_CC1, ENABLE);
+    // TIM_DMAConfig(TIM2, TIM_DMABase_???, 1);
 
-}
-
-void adc_init() {
-    // Setup ADC 1
-    ADC_InitTypeDef       ADC_InitStructure;
-    ADC_CommonInitTypeDef ADC_CommonInitStructure;
-
-    // ADC common Init
-    ADC_CommonInitStructure.ADC_Mode             = ADC_Mode_Independent;
-    ADC_CommonInitStructure.ADC_Prescaler        = ADC_Prescaler_Div8;
-    ADC_CommonInitStructure.ADC_DMAAccessMode    = ADC_DMAAccessMode_2;
-    ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;
-    ADC_CommonInit(&ADC_CommonInitStructure);
-
-    // ADC Init
-    ADC_InitStructure.ADC_Resolution           = ADC_Resolution_12b;
-    ADC_InitStructure.ADC_ScanConvMode         = DISABLE;
-    ADC_InitStructure.ADC_ContinuousConvMode   = ENABLE;
-    ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
-    ADC_InitStructure.ADC_ExternalTrigConv     = ADC_ExternalTrigConvEdge_None;
-    ADC_InitStructure.ADC_DataAlign            = ADC_DataAlign_Right;
-    ADC_InitStructure.ADC_NbrOfConversion      = 1;
-    ADC_Init(ADC1, &ADC_InitStructure);
-
-    ADC_Cmd(ADC1, ENABLE);
-    ADC_DMACmd(ADC1, ENABLE);
-    ADC_RegularChannelConfig(ADC1, 0, 1, ADC_SampleTime_15Cycles);
 }
 
 void dma_init() {
@@ -169,6 +139,5 @@ void dma_init() {
 }
 
 void start(void) {
-    DMA_Cmd(DMA1_Stream5, ENABLE);
-    // ADC1->CR2 |= 0x40000000;
+    // DMA_Cmd(DMA1_Stream5, ENABLE);
 }
