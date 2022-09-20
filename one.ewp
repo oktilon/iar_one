@@ -2137,6 +2137,9 @@
                 <name>$PROJ_DIR$\Application\inc\board.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\Application\inc\motor.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\Application\inc\task.h</name>
             </file>
         </group>
@@ -2144,6 +2147,9 @@
             <name>src</name>
             <file>
                 <name>$PROJ_DIR$\Application\src\board.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Application\src\motor.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Application\src\task.c</name>

@@ -49,13 +49,14 @@ void system_clock_init(void) {
     RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
     RCC->DCKCFGR |=  RCC_DCKCFGR_TIMPRE;                         // clock timer
 
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);
+    // RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+    // RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
+    // RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);
     RCC_AHB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+    // RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
 }
 
 //========================= MPU SYSTICK INIT ===================================
@@ -72,8 +73,8 @@ void gpio_init(void) {
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOA, &GPIO_InitStructure); // PA0 (GPIOA + Pin0)
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource0, GPIO_AF_TIM2);
+    GPIO_Init(GPIOD, &GPIO_InitStructure); // PA0 (GPIOA + Pin0)
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource0, GPIO_AF_TIM2);
 }
 
 void tim_init() {
