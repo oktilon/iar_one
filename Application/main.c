@@ -5,7 +5,6 @@ void main(void)
 {
     hardware_init();
     motor_init();
-    start();
 
     uint32_t dir = FORWARD;
     uint32_t step = 200;
@@ -34,9 +33,3 @@ void main(void)
     }
 }
 //=========================================================================================
-
-
-void TIM2_IRQHandler() {
-    __NOP();
-    TIM_ClearITPendingBit(TIM2, TIM_IT_Update | TIM_IT_CC1);
-}
