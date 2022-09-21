@@ -29,6 +29,8 @@ void hardware_init(void) {
     SystemInit();
     system_clock_init();
     systick_init();
+    tim_init();
+    gpio_init();
 }
 
 //========================= MPU SYSTEM CLOCK INIT ==============================
@@ -54,4 +56,38 @@ void system_clock_init(void) {
 void systick_init(void) {
     RCC_GetClocksFreq(&RCC_Clocks);
     SysTick_Config(RCC_Clocks.HCLK_Frequency / 1000);
+}
+
+void gpio_init(void) {
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_1;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource1, GPIO_AF_TIM2);
+}
+
+void tim_init() {
+    TIM_TimeBaseInitTypeDef TIM_InitBaseStructure;
+    TIM_OCInitTypeDef TIM_InitStructure;
+    TIM_DeInit(TIM2);
+
+    // TIM_TimeBaseStructInit(&TIM_InitBaseStructure);
+    TIM_InitBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_InitBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+    TIM_InitBaseStructure.TIM_Period = 4294964295;
+    TIM_InitBaseStructure.TIM_Prescaler = 0;
+    TIM_TimeBaseInit(TIM2, &TIM_InitBaseStructure);
+
+    TIM_InternalClockConfig(TIM2);
+
+    TIM_InitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+    TIM_InitStructure.TIM_OutputState = TIM_OutputState_Disable;
+    TIM_InitStructure.TIM_Pulse = 0u;
+    TIM_InitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+    TIM_OC2Init(TIM2, &TIM_InitStructure);
+
+    TIM_Cmd(TIM2, ENABLE);
 }

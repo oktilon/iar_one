@@ -12,6 +12,7 @@
 
 
 void hardware_init(void);
-
+void gpio_init(void);
+void tim_init(void);
 
 #endif

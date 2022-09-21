@@ -56,12 +56,6 @@ void motor_init() {
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_Init(BLUE_PORT, &GPIO_InitStructure);
 
-    // PWM
-    GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_1;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-    // Timer 2
 
     motor.speed     = HIGH;
     motor.step      = 0;
