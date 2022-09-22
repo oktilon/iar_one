@@ -11,6 +11,8 @@ void main(void)
     uint32_t speed = HIGH;
     uint8_t loops = 5;
     int32_t rotate = 0;
+    
+    TIM2->CCER |= TIM_CCER_CC2E;
 
     MotorStart(step, dir, speed);
     //for(int i=0; i<100000; i++) { __NOP(); }
@@ -26,7 +28,7 @@ void main(void)
                 } else {
                     dir = FORWARD;
                     MotorStart(step, dir, speed);
-                    rotate = -3000;
+                    rotate = 1000;
                     loops--;
                 }
                 TIM2->CCR2 = rotate;

@@ -48,6 +48,7 @@ void system_clock_init(void) {
     RCC->DCKCFGR |=  RCC_DCKCFGR_TIMPRE;                         // clock timer
 
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
 }
