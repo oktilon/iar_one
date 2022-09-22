@@ -2847,6 +2847,9 @@
                 <name>$PROJ_DIR$\Application\inc\board.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\Application\inc\dac.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\Application\inc\task.h</name>
             </file>
         </group>
@@ -2854,6 +2857,9 @@
             <name>src</name>
             <file>
                 <name>$PROJ_DIR$\Application\src\board.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Application\src\dac.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Application\src\task.c</name>
@@ -2869,6 +2875,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma.h</name>
@@ -2890,6 +2899,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dac.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma.c</name>

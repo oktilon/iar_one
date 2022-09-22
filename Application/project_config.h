@@ -6,13 +6,14 @@
 #include "stm32f4xx.h"
 // library
 #include "misc.h"
-#include "stm32f4xx_adc.h"
+#include "stm32f4xx_dac.h"
 #include "stm32f4xx_dma.h"
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_syscfg.h"
 // user
 #include "board.h"
+#include "dac.h"
 //==============================================================================
 
 //========================= DEFINES ============================================
