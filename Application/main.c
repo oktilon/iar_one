@@ -19,14 +19,14 @@ void main(void)
     __NOP();
     DAC->DHR12R1 |= 0xffe;
 
-    __disable_irq;
-    __disable_fault_irq;
-    FLASH_Unlock();
-    FLASH_EraseSector(4, VoltageRange_1);
-    FLASH_ProgramDoubleWord(0x001, 0x000000001);
-    FLASH_Lock();
-    __enable_irq;
-    __enable_fault_irq;
+    // __disable_irq;
+    // __disable_fault_irq;
+    // FLASH_Unlock();
+    // FLASH_EraseSector(4, VoltageRange_1);
+    // FLASH_ProgramDoubleWord(0x001, 0x000000001);
+    // FLASH_Lock();
+    // __enable_irq;
+    // __enable_fault_irq;
 
     while(1);
 }
