@@ -6,8 +6,11 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/Application/**",
                 "${workspaceFolder}/Application/inc/**",
+                "${workspaceFolder}/Libraries/lvgl/**",
+                "${workspaceFolder}/Libraries/lvgl/src/**",
                 "${workspaceFolder}/Libraries/CMSIS/Include/**",
-                "${workspaceFolder}/Libraries/STM32F4xx_StdPeriph_Driver/inc/**"
+                "${workspaceFolder}/Libraries/STM32F4xx_StdPeriph_Driver/inc/**",
+                "${workspaceFolder}/Libraries/STM32F4xx_HAL_Driver/Inc/**"
             ],
             "defines": [
                 "STM32F40_41xxx",

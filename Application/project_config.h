@@ -13,7 +13,11 @@
 #include "stm32f4xx_syscfg.h"
 // user
 #include "board.h"
-#include "dac.h"
+#include "printf.h"
+#include "lcd.h"
+#include "lvgl.h"
+#include "display_lvgl.h"
+#include "lv_demo_widgets.h"
 //==============================================================================
 
 //========================= DEFINES ============================================
