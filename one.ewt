@@ -2917,6 +2917,9 @@
             </file>
         </group>
         <file>
+            <name>$PROJ_DIR$\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h</name>
         </file>
     </group>
